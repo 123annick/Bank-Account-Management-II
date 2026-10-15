@@ -74,7 +74,7 @@ public abstract class Account implements Transactable {
   @Override
   public void deposit(double amount) throws InvalidAmountException {
     ValidationUtils.validateAmount(amount);
-    balance += amount;
+    balance = roundToCents(balance + amount);
   }
 
   /**
@@ -89,7 +89,7 @@ public abstract class Account implements Transactable {
   public void withdraw(double amount)
       throws InvalidAmountException, InsufficientFundsException, OverdraftExceededException {
     checkWithdrawal(amount);
-    balance -= amount;
+    balance = roundToCents(balance - amount);
   }
 
   /**
@@ -124,6 +124,10 @@ public abstract class Account implements Transactable {
       throws InsufficientFundsException, OverdraftExceededException;
 
   protected void chargeFee(double fee) {
-    balance -= fee;
+    balance = roundToCents(balance - fee);
+  }
+
+  private static double roundToCents(double amount) {
+    return Math.round(amount * 100) / 100.0;
   }
 }
