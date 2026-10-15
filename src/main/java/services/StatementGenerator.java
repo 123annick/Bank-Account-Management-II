@@ -3,6 +3,7 @@ package services;
 import models.Account;
 import models.Transaction;
 import utils.FormatUtils;
+import utils.TransactionSorter;
 
 public class StatementGenerator {
   private static final String SEPARATOR = "─".repeat(72);
@@ -25,16 +26,16 @@ public class StatementGenerator {
    * @return the statement text, ready to print
    */
   public String generateStatement(Account account) {
-    Transaction[] transactions =
-        transactionHistory.getTransactionsFor(account.getAccountNumber());
+    Transaction[] newestFirst = TransactionSorter.sortNewestFirst(
+        transactionHistory.getTransactionsFor(account.getAccountNumber()));
     StringBuilder statement = new StringBuilder();
     appendHeader(statement, account);
-    if (transactions.length == 0) {
+    if (newestFirst.length == 0) {
       statement.append("No transactions recorded for this account.\n");
       return statement.toString();
     }
-    appendTransactions(statement, transactions);
-    appendSummary(statement, transactions);
+    appendTransactions(statement, newestFirst);
+    appendSummary(statement, newestFirst);
     return statement.toString();
   }
 
@@ -79,8 +80,7 @@ public class StatementGenerator {
   }
 
   private void appendTransactions(StringBuilder statement, Transaction[] transactions) {
-    for (int i = transactions.length - 1; i >= 0; i--) {
-      Transaction transaction = transactions[i];
+    for (Transaction transaction : transactions) {
       statement.append(String.format("%-7s | %-19s | %-12s | %-12s | %s%n",
           transaction.getTransactionId(),
           FormatUtils.dateTime(transaction.getTimestamp()),
