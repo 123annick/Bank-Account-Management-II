@@ -96,6 +96,13 @@ class AccountTest {
   }
 
   @Test
+  void balanceIsRoundedToCents() throws Exception {
+    savings.deposit(0.1);
+    savings.deposit(0.2);
+    assertEquals(1000.3, savings.getBalance());
+  }
+
+  @Test
   void savingsInterestIsCalculatedOnBalance() {
     SavingsAccount rich = TestData.savingsAccount(10000);
     assertEquals(350, rich.calculateInterest(), 0.001);
