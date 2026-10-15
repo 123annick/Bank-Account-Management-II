@@ -1,4 +1,4 @@
-# Bank Account Management System — Week 2
+# Bank Account Management System II — Week 2
 
 A console-based banking application in Java. Week 2 refactors the Week 1 code for clean
 code and the SOLID principles, adds custom exceptions, a JUnit 5 test suite, and a Git
