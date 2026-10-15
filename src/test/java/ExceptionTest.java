@@ -51,6 +51,13 @@ class ExceptionTest {
   }
 
   @Test
+  void notANumberAmountThrowsInvalidAmountException() {
+    assertThrows(InvalidAmountException.class, () -> ValidationUtils.validateAmount(Double.NaN));
+    assertThrows(InvalidAmountException.class,
+        () -> ValidationUtils.validateAmount(Double.POSITIVE_INFINITY));
+  }
+
+  @Test
   void unknownAccountNumberThrowsInvalidAccountException() {
     InvalidAccountException exception = assertThrows(InvalidAccountException.class,
         () -> accountManager.findAccount("ACC999"));
