@@ -4,6 +4,7 @@ import services.AccountFactory;
 import services.AccountManager;
 import services.AccountRepository;
 import services.SampleDataLoader;
+import services.SelfTestRunner;
 import services.StatementGenerator;
 import services.TransactionManager;
 import ui.AccountMenu;
@@ -13,6 +14,7 @@ import ui.ConsoleInput;
 import ui.ConsoleOutput;
 import ui.MenuAction;
 import ui.StatementMenu;
+import ui.TestMenu;
 import ui.TransactionMenu;
 
 public class Main {
@@ -36,7 +38,8 @@ public class Main {
     MenuAction[] menuActions = {
         new AccountMenu(input, output, accounts, accountFactory),
         new TransactionMenu(input, output, accountSelector, transactionManager),
-        new StatementMenu(output, accountSelector, new StatementGenerator(transactionManager))
+        new StatementMenu(output, accountSelector, new StatementGenerator(transactionManager)),
+        new TestMenu(output, new SelfTestRunner())
     };
     new BankConsoleApp(input, output, menuActions).run();
   }
