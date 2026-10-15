@@ -8,13 +8,13 @@ public final class ValidationUtils {
   }
 
   /**
-   * Checks that an amount is greater than zero.
+   * Checks that an amount is a real number greater than zero.
    *
    * @param amount the amount to check
-   * @throws InvalidAmountException when the amount is zero or negative
+   * @throws InvalidAmountException when the amount is zero, negative or not a real number
    */
   public static void validateAmount(double amount) throws InvalidAmountException {
-    if (amount <= 0) {
+    if (!Double.isFinite(amount) || amount <= 0) {
       throw new InvalidAmountException("Invalid amount. Amount must be greater than 0.");
     }
   }
